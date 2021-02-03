@@ -97,7 +97,7 @@ class App extends Component {
     event.preventDefault();
     this.setState({ authLoading: true });
     fetch(`${process.env.REACT_APP_SERVER_URI}/api/auth/signup`, {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },

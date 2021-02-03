@@ -1,11 +1,12 @@
-const express = require("express");
+// const express = require("express");
+const router = require('express-promise-router')();
 const { body } = require("express-validator");
 
 const feedController = require("../controllers/feed.controller");
 const isAuth = require("../middlewares/is-auth");
 const fileUpload = require("../middlewares/file-upload");
 
-const router = express.Router();
+// const router = express.Router();
 
 router.use(isAuth);
 

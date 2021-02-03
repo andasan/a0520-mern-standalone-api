@@ -1,10 +1,11 @@
-const express = require('express');
+// const express = require('express');
+const router = require('express-promise-router')();
 const { body } = require('express-validator')
 
 const User = require('../models/user.model');
 const authController = require('../controllers/auth.controller');
 
-const router = express.Router();
+// const router = express.Router();
 
 router.post(
     '/signup',

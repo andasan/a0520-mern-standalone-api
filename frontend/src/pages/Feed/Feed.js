@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import openSocket from 'socket.io-client'
 
 import Post from '../../components/Feed/Post/Post';
 import Button from '../../components/Button/Button';
 import FeedEdit from '../../components/Feed/FeedEdit/FeedEdit';
-import Input from '../../components/Form/Input/Input';
 import Paginator from '../../components/Paginator/Paginator';
 import Loader from '../../components/Loader/Loader';
 import ErrorHandler from '../../components/ErrorHandler/ErrorHandler';
@@ -22,6 +22,19 @@ class Feed extends Component {
 
   componentDidMount() {
     this.loadPosts();
+
+    //listen to oncoming data from socket.io (server)
+    // openSocket('http://localhost:5000');
+    const socket = openSocket(process.env.REACT_APP_SERVER_URI);
+    socket.on('posts', (data) => {
+      if(data.action === 'create'){
+        this.addPost(data.post);
+      }else if(data.action === 'update'){
+        this.updatePost(data.post)
+      }else if(data.action === 'delete'){
+        this.loadPosts();
+      }
+    })
   }
 
   addPost = post => {
@@ -64,7 +77,7 @@ class Feed extends Component {
       page--;
       this.setState({ postPage: page });
     }
-    fetch(`${process.env.REACT_APP_SERVER_URI}/api/feed/posts?page=${page}`, {
+    fetch(`${process.env.REACT_APP_SERVER_URI}/api/feed/posts`, {
       headers: {
         Authorization: 'Bearer ' + this.props.token
       }
@@ -76,7 +89,7 @@ class Feed extends Component {
         return res.json();
       })
       .then(resData => {
-        if (!!resData.posts) {
+        if (!resData.posts) {
           this.setState({
             totalPosts: 0,
             postsLoading: false
@@ -88,7 +101,7 @@ class Feed extends Component {
           posts: resData.posts.map(post => {
             return {
               ...post,
-              imagePath: post.imageUrl
+              imagePath: post.image
             };
           }),
           totalPosts: resData.totalItems,
@@ -257,7 +270,7 @@ class Feed extends Component {
                   authorId={post.creator._id}
                   date={new Date(post.createdAt).toLocaleDateString('en-US')}
                   title={post.title}
-                  image={post.imageUrl}
+                  image={post.image}
                   content={post.content}
                   onStartEdit={this.startEditPostHandler.bind(this, post._id)}
                   onDelete={this.deletePostHandler.bind(this, post._id)}
