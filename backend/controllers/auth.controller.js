@@ -1,10 +1,17 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator');
 
 const User = require('../models/user.model');
 
 exports.signup = async (req, res, next) => {
-    // res.send({ msg: 'Please sign up'});
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        const error = new Error('Validation failed');
+        error.statusCode = 422;
+        throw error;
+    }
+    
     const { email, name, password } = req.body;
 
     try {

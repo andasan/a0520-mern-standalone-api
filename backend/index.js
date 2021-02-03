@@ -1,15 +1,21 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
+// const multer = require('multer');
 
 const authRoute = require('./routes/auth.route');
 const feedRoute = require('./routes/feed.route');
 
 const app = express();
 
-//Body Parser
+//Parser
+// app.use(multer().single('image'));
 app.use(express.urlencoded({ extended: true })); //x-www-form-urlencoded
 app.use(express.json()); //application/json
+
+//Serving images statically
+app.use('/uploads/images', express.static(path.join(__dirname, 'uploads', 'images')))
 
 //Routes
 app.use('/api/auth', authRoute);
