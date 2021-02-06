@@ -290,10 +290,6 @@ class Feed extends Component {
         }
 
         this.loadPosts()
-        // this.setState((prevState) => {
-        //   const updatedPosts = prevState.posts.filter((p) => p._id !== postId)
-        //   return { posts: updatedPosts, postsLoading: false }
-        // })
       })
       .catch((err) => {
         console.log(err)
