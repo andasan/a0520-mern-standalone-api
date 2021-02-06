@@ -8,8 +8,8 @@ const MIME_TYPE_MAP = {
     "image/gif": "gif"
 }
 
-const fileUpload = multer({
-    limit: 5000000, //bytes
+const fileUpload = {
+    limit: 50000000, //bytes, 50mb
     storage: multer.diskStorage({
         destination: (req, file, callback) => {
             callback(null, 'uploads/images');
@@ -24,6 +24,6 @@ const fileUpload = multer({
         let error = isValid ? null : new Error('Invalid mime type');
         callback(error, isValid);
     }
-});
+};
 
 module.exports = fileUpload;

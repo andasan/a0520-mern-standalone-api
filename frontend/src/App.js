@@ -70,24 +70,24 @@ class App extends Component {
       body: JSON.stringify(graphqlQuery),
     })
       .then((res) => {
-        if (res.status === 422) {
-          throw new Error('Validation failed.')
-        }
-        if (res.status !== 200 && res.status !== 201) {
-          console.log('Error!')
-          throw new Error('Could not authenticate you!')
-        }
         return res.json()
       })
       .then((resData) => {
+        if (resData.errors && resData.errors[0].status === 422) {
+          throw new Error('Validation failed. Make sure the email address is not used yet')
+        }
+        if (resData.errors) {
+          throw new Error('Could not authenticate you!')
+        }
+
         this.setState({
           isAuth: true,
-          token: resData.token,
+          token: resData.data.login.token, 
           authLoading: false,
-          userId: resData.userId,
+          userId: resData.data.login.userId,
         })
-        localStorage.setItem('token', resData.token)
-        localStorage.setItem('userId', resData.userId)
+        localStorage.setItem('token', resData.data.login.token)
+        localStorage.setItem('userId', resData.data.login.userId)
         const remainingMilliseconds = 60 * 60 * 1000
         const expiryDate = new Date(
           new Date().getTime() + remainingMilliseconds
