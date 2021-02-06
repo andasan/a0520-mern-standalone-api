@@ -228,6 +228,7 @@ class Feed extends Component {
           createdAt: resData.data[resDataField].createdAt,
           image: resData.data[resDataField].image,
         }
+
         this.setState((prevState) => {
           let updatedPosts = [...prevState.posts]
           let updatedTotalPosts = prevState.totalPosts
@@ -251,6 +252,8 @@ class Feed extends Component {
             totalPosts: updatedTotalPosts,
           }
         })
+
+        this.loadPosts()
       })
       .catch((err) => {
         console.log(err)
