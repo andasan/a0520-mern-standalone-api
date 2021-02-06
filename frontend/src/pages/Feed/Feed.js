@@ -75,7 +75,7 @@ class Feed extends Component {
       },
     }
 
-    fetch('http://localhost:8080/graphql', {
+    fetch(`${process.env.REACT_APP_SERVER_URI}/graphql`, {
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + this.props.token,
@@ -273,7 +273,7 @@ class Feed extends Component {
         }
       `,
     }
-    fetch('http://localhost:8080/graphql', {
+    fetch(`${process.env.REACT_APP_SERVER_URI}/graphql`, {
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + this.props.token,
