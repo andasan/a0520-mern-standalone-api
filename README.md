@@ -14,4 +14,4 @@ Prerequisite:
   * REACT_APP_CLIENT_URI=http://localhost:3000
 
 * Solution for deploying to heroku since `backend` is a subfolder
-> git subtree push --prefix backend heroku main
+> $ git subtree push --prefix backend heroku main
