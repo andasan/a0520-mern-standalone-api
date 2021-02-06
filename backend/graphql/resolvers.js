@@ -8,7 +8,6 @@ const { clearImage } = require('../util/file')
 
 module.exports = {
   createUser: async function ({ userInput }, req) {
-    // const email = args.userInput.email;
     const errors = []
     if (!validator.isEmail(userInput.email)) {
       errors.push({ message: 'Email is invalid' })
